@@ -1,0 +1,33 @@
+body{
+    background: linear-gradient(to right, #ff7dd4, #7dd1ff);
+    width: 90vw;
+    padding: 10px;
+
+}
+.wrapper{
+    /* width: 50vw; */
+    text-align: center;
+}
+/* style for the button */
+#getCurTab{
+    background-color: #0073e6;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    margin-bottom:10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* style for the button on hover */
+
+#getCurTab{
+    background-color: #005bb7;
+}
+
+/* style for the title container */
+#curTabTitle{
+    font-size: 12px;
+    color: #0a0101;
+    font-weight: 500;
+}
