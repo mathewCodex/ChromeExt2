@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "LinkedIn Profile Test1",
+
+  "version": "2.0",
+  "description": "An extention that display the profile of a linkedin user",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "tabs",
+    "webNavigation",
+    "webRequest"
+    
+  ],
+
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "imgs/logo.png",
+      "48": "imgs/logo.png",
+      "128": "imgs/logo.png"
+    },
+    "icons": {
+      "16": "imgs/logo.png",
+      "48": "imgs/logo.png",
+      "128": "imgs/logo.png"
+    },
+    "background": {
+      "service_worker": "content.js"
+    },
+
+    "options_page": "options.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://www.linkedin.com/in/*"],
+      "js": ["contentScript.js"]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}

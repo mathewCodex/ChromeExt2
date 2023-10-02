@@ -1,52 +1,54 @@
-const express = require("express");
-const morgan = require("morgan");
-//importing router
-// const blogRoutes = require("./Router/blogRoutes");
-const scraperRoute = require("./Router/scraperRoute");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const http = require("http");
-// const { render } = require("ejs");
+const popData = (response) => {
+    chrome.storage.sync.set({ response },async  () => {
+        await fetch("http://localhost:3000/api/postData", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(response),
+        });
+        if (response.ok) {
+          console.log(`Data fetched successfully`);
+        } else {
+          console.error("Error sending data");
+        }
+    });
+    
+}
+ chrome.tabs.query({ active: true, currentWindow: true }, (tab) => {
+//    const activeTab = tabs[0];
 
-const port = process.env.PORT || 3000;
-//express app
-const app = express();
-///connecting to dataBase...
-const database = `mongodb+srv://mathewCodex:for12345@cluster1.avjfq.mongodb.net/chromeExt?retryWrites=true&w=majority`;
-mongoose
-  .connect(database, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then((result) => {
-    console.log("listening  at 3000");
-    app.listen(port);
-  })
-  .catch((err) => console.log(err));
-//register view enjine...
-app.set("view engine", "ejs");
-///////////
-//creating a iddleware that pass a data and gives s access to our for..
-app.use(bodyParser.urlencoded({ extended: true }));
+if (tab.length > 0){
+    const curTab = tab[0];
+    const curTaburl = curTab.url
+    if (curTaburl === "https://www.linkedin.com/in/*") {
+      chrome.storage.sync.get(["response"], (result) => {
+        popData(result.response);
+      });
 
-//requesting morgan..
-app.use(morgan("dev"));
+      document.querySelector(".import").addEventListener("click", async () => {
+        chrome.tabs.sendMessage(
+          tab.id,
+          { action: "scrapedProfiles" },
+          async (response) => {
+            popData(response);
+            console.log(response);
+          }
+        );
 
-//adding statc files
-app.use(express.static("public"));
+        //  const response =
+      });
+      // Send a message to the extension with the scraped data
+    //   document.querySelector(".clear").addEventListener("click", () => {
+    //     chrome.storage.sync.clear();
 
-///
-
-app.use((req, res, next) => {
-  console.log("In the next middlewarae");
-  next();
-});
-
-
-//get request for the about page ..
-
-//Blog Routes
-
-app.use("/api/postData", scraperRoute);
-
-//404 in express..
-app.use((req, res) => {
-  res.status(404).render("404", { title: "404" });
-});
+    //     document.querySelector(".disclaimer").classList.remove("hidden");
+    //     document.querySelector(".shopping-list").classList.add("hidden");
+    //   });
+    }
+   
+}
+//   if (tab.url.includes("www.linkedin.com/in/")) {
+   
+//   } 
+ });
