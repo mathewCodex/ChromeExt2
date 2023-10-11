@@ -1,12 +1,12 @@
 chrome.runtime.onMessage.addListener( async (req, sender, sendResponse) => {
-    const cheerio = require("cheerio");
-const axios = require("axios");
+  const cheerio = require("cheerio");
+  const axios = require("axios");
 
-const profileUrls = [
-  "https://www.linkedin.com/in/mathewcodex",
-  "https://www.linkedin.com/in/stella-ladegbaye",
-  "https://www.linkedin.com/in/daniella-atidigah",
-];
+  const profileUrls = [
+    "https://www.linkedin.com/in/mathewcodex",
+    "https://www.linkedin.com/in/stella-ladegbaye",
+    "https://www.linkedin.com/in/daniella-atidigah",
+  ];
   if (req.action === "scrapedProfiles") {
     const profiles = [];
 
@@ -48,6 +48,19 @@ const profileUrls = [
         profiles.push(profileData1);
 
         sendResponse({ profiles });
+        // Function to make the likes count ...
+        if (message.action === "likePosts") {
+          const count = message.count;
+          const likeButtons = document.querySelectorAll(
+            "button[data-control-name='like_toggle']"
+          );
+          const likeCount = Math.min(count, likeButtons.length);
+
+          for (let i = 0; i < likeCount; i++) {
+            likeButtons[i].click();
+          }
+        }
+        
       } catch (err) {
         console.error("Error:", err.message);
       }
@@ -60,4 +73,21 @@ const profileUrls = [
       console.error("Error:", "Url error " + err.message);
     }
   }
+    if (req.action === "scrapedProfiles")
+    {
+       const name = document.querySelectorAll(".entity-result__title-text");
+
+  let userInfo = [];
+
+  name.forEach((current) => {
+    userUrl = current.firstElementChild.getAttribute("href");
+    const array = current.innerText.split("\n");
+    userName = array[0];
+    userInfo.push({ name: userName, url: userUrl });
+  });
+
+  sendResponse({ data: userInfo });
+    }
+ 
+  
 });

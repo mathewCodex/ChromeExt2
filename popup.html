@@ -5,11 +5,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <title>Profile scraper</title>
-        <link rel="stylesheet" href="css/app.css" />
+        <link rel="stylesheet" href="./popup.css" />
     </head>
     <body>
         
-        <div class="disclaimer">
+      
+     <!-- 
+
+
+      -->
+        <div class="header">
+    <h1 class="text-center down">LinkedIN Extension</h1>
+  </div>
+    <div class="disclaimer">
             To start importing<br />
             visit a linkedinProfile
             <strong>LinkedIn</strong>
@@ -19,9 +27,26 @@
             <h1 class="recipe-name"></h1>
       
             <ul class="ingredients"></ul>
-            <button class="clear hidden">Clear</button>
+            <button type="submit" class="clear hidden">Clear</button>
+            
         </div>
+  <div class="container">
+    <div class="errtext">
+    </div>
+    <div class="input-group input-group-md mb-3">
+      <input id="search1" type="text" placeholder="Enter string value" class="form-control">
+    </div>
+    <div class="input-group input-group-md mb-3">
 
+      <input id="search2" id="likeCount" placeholder="Enter number of likes" class="form-control">
+    </div>
+    <!-- btn to fetch feeds  -->
+    <button id="button" type="button" class="btn btn-primary btn-md centered-btn mb-3">GO !</button>
+    <!-- Btn for likes count -->
+    <button id="likeButton" class="btn">Auto Like</button>
+    <div class="bool-value">
+    </div>
+  </div>
         <script src="app.js"></script>
     </body>
 </html>
